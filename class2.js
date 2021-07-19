@@ -1,19 +1,22 @@
 var http = require('http')
-const colors = require('colors')
+var colors = require('colors')
+var URL =require('url')
 var server = http.createServer(function (request, response) {
-    if (request.url == '/') {
+
+    var myUrl = 'https://tracker.toptal.com/app/my-activities?start=2021-07-01&end=2021-07-18&projects=all'
+
+    var myUrlObject  = URL.parse(myUrl,true)
+
+    var myHostName = myUrlObject.host
+    var myPathName = myUrlObject.pathname
+    var mySearchQuery = myUrlObject.search
+
         response.writeHead(200, {'Content-Type': 'text/html'})
-        response.write('<h1>Home Page!</h1>')
+        response.write(myHostName+'<br>')
+        response.write(myPathName+'<br>')
+        response.write(mySearchQuery)
         response.end()
-    } else if (request.url == '/about') {
-        response.writeHead(200, {'Content-Type': 'text/html'})
-        response.write('<h1>About Page!</h1>')
-        response.end()
-    } else if (request.url == '/contact') {
-        response.writeHead(200, {'Content-Type': 'text/html'})
-        response.write('<h1>Contact Page!</h1>')
-        response.end()
-    }
+
 });
 server.listen(8880);
 
