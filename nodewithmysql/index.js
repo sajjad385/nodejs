@@ -14,6 +14,7 @@ con.connect(function (error) {
         console.log('Database Connection Successfully!'.red)
         insertUser(con)
         deleteUserById(con)
+        updateUser(con)
     }
 })
 
@@ -30,14 +31,28 @@ insertUser = (connection) => {
     })
 }
 
+//Delete Query
 deleteUserById = (connection) => {
-    let deleteQuery = 'DELETE FROM `users` WHERE `id` = 2';
-    connection.query(deleteQuery,(error)=>{
-        if (!error){
+    let deleteQuery = 'DELETE FROM `users` WHERE `id` = 3';
+    connection.query(deleteQuery, (error) => {
+        if (!error) {
             console.log('User Deleted Successfully!'.blue)
-        }else{
+        } else {
             console.log('User Delete Failed!')
         }
     })
 
+}
+
+//Update Query
+
+updateUser = (connection) => {
+    let updateQuery = 'UPDATE `users` SET `name`="Mohammad Sajjad" WHERE `id` = 5'
+    connection.query(updateQuery, function (error) {
+        if (!error) {
+            console.log('User Updated Successfully!'.yellow)
+        } else {
+            console.log('User Update Failed!')
+        }
+    })
 }
