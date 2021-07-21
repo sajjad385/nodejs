@@ -12,9 +12,10 @@ con.connect(function (error) {
         console.log('Database Connection Failed')
     } else {
         console.log('Database Connection Successfully!'.red)
-        insertUser(con)
+        /*insertUser(con)
         deleteUserById(con)
-        updateUser(con)
+        updateUser(con)*/
+        getUserList(con)
     }
 })
 
@@ -53,6 +54,18 @@ updateUser = (connection) => {
             console.log('User Updated Successfully!'.yellow)
         } else {
             console.log('User Update Failed!')
+        }
+    })
+}
+
+//get user list query
+getUserList = (connection) => {
+    let getUserQuery = 'SELECT * FROM `users`';
+    connection.query(getUserQuery, (error, result) => {
+        if (error) {
+            console.log('Get Users List Failed! ')
+        } else {
+            console.log(result)
         }
     })
 }
