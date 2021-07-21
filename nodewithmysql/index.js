@@ -1,24 +1,27 @@
+let http = require('http')
 let mysql = require('mysql')
 let colors = require('colors')
-let databaseConnectionConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'nodejs'
-}
-let con = mysql.createConnection(databaseConnectionConfig)
-con.connect(function (error) {
-    if (error) {
-        console.log('Database Connection Failed')
-    } else {
-        console.log('Database Connection Successfully!'.red)
-        /*insertUser(con)
-        deleteUserById(con)
-        updateUser(con)*/
-        getUserList(con)
-    }
-})
 
+let server =http.createServer((request,response)=> {
+    let databaseConnectionConfig = {
+        host: 'localhost',
+        user: 'root',
+        password: 'password',
+        database: 'nodejs'
+    }
+    let con = mysql.createConnection(databaseConnectionConfig)
+    con.connect(function (error) {
+        if (error) {
+            console.log('Database Connection Failed')
+        } else {
+            console.log('Database Connection Successfully!')
+            /*insertUser(con)
+            deleteUserById(con)
+            updateUser(con)*/
+            getUserList(con, response)
+        }
+    })
+})
 //Insert Query
 insertUser = (connection) => {
     let sqlQuery = 'INSERT INTO `users`(`name`, `email`, `created_at`) VALUES ("Rani","rani@gmail.com","2021-07-21 00:00:00")';
@@ -59,13 +62,15 @@ updateUser = (connection) => {
 }
 
 //get user list query
-getUserList = (connection) => {
+getUserList = (connection,response) => {
     let getUserQuery = 'SELECT * FROM `users`';
     connection.query(getUserQuery, (error, result) => {
         if (error) {
             console.log('Get Users List Failed! ')
         } else {
-            console.log(result)
+            response.end(JSON.stringify(result))
         }
     })
 }
+
+server.listen(5050)
